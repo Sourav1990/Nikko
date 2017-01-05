@@ -16,7 +16,7 @@ public class nikkocontroller {
  
     @RequestMapping(value="/test", method=RequestMethod.GET)
     public String nextDefaultMultiControllerAction() {
-        return "test";
+        return "test3";
     }
     @RequestMapping(value="/signup", method=RequestMethod.GET)
     public String next2DefaultMultiControllerAction() {
