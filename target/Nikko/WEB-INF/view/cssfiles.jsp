@@ -8,6 +8,5 @@
      <%@include file="/resources/css/style.css" %>
      <%@include file="/resources/css/modalfin.css" %>
       <%@include file="/resources/css/hover.css" %>
-      <%@include file="/resources/font-awesome/fonts/css/font-awesome.min.css" %>
 </style>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">

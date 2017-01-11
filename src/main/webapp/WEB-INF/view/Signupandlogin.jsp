@@ -126,13 +126,17 @@ position: relative; z-index: 15;
           </li>
           
         </ul>
+        <form action="login.jsp" method="POST">
          <nav class="main-nav">
 <ul>
-				<!-- inser more links here -->
+				
+				
 				<li><a class="cd-signin" href="#0">Sign in</a></li>
 				<li><a class="cd-signup" href="#0">Sign up</a></li>
+				
 			</ul>
 			</nav>
+			</form>
       </div>
     </nav>
   </div><!-- /.container -->

@@ -206,7 +206,7 @@
         body {font: normal 0.9em Arial;margin:0;}
         #bg-asset {
             position: fixed;
-            background: url('file:///D:/Nikko/src/main/webapp/resources/images/pg-bg.jpg');
+            background: url('https://www.stakeholdermap.com/ninja-slider/pg-bg.jpg');
             z-index: -1;
             top: 0;
             bottom: 0;

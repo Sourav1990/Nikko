@@ -10,7 +10,9 @@ xsi:schemaLocation="
     http://www.springframework.org/schema/mvc
     http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
      
- <context:component-scan base-package="com.niit.controller" />
+ <context:component-scan base-package="com.niit" />
+  <context:component-scan base-package="com.niit.controller.nikkocontroller" />
+   <context:component-scan base-package="com.niit.nikkobackend.*" />
 <mvc:annotation-driven />	
 <mvc:resources mapping="/resources/css/**" location="/resources/css/"/>
 <mvc:resources mapping="/resources/js/**" location="/resources/js/"/>
