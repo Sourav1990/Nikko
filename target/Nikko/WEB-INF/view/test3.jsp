@@ -242,14 +242,18 @@
 <title>Insert title here</title>
 </head>
 <body>
+<form:form method="POST" commandName="user">
+
     <header>
         <a class="active" href="#">HOME</a>
-        <a href="#">PRODUCTS</a>
+        <a href="test">GALLERIA</a>
+        <a href="mcart">PRODUCTS</a>
         <a href="#">SERVICE AND SUPPORT</a>
         <a href="#">WHERE TO BUY</a>
         <a href="#">LEARN AND EXPLORE</a>
         <a href="#">ABOUT US</a>
-        <a href="signup.html">SIGNUP AND LOGIN</a>
+        <a href="signup">SIGNUP AND LOGIN</a>
+        Welcome, ${loggedInUserID}
     </header>
     <!--start-->
     <div id="bg-asset"></div>
@@ -383,6 +387,31 @@
     <p class="name"> Company Name &copy; 2016</p>
   </div>
 </footer>
+<span class="counter pull-right"></span>
+<table class="table table-hover table-bordered results">
+  <tbody>
+    <tr>
+      <th scope="row">1</th>
+      <td><figure class="snip1195">
+  <h4>Casual Top</h4>
+  <div class="image">
+    <a class="hovertext" href="productdetail1" title="Explore"><img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/331810/sq-sample14.jpg" alt="sq-sample14"/></a>
+  </div>
+  <figcaption>
+    <p>
+      I'm just very selective about the reality I choose to accept.
+    </p>
+    <div class="price">
+      <s>$24.00</s>$19.00
+    </div>
+  </figcaption><a href="productdetail1" class="add-to-cart">VIEW</a>
+</figure></td>
+</tr>
 
+					
+
+				</tbody>
+				</table>
+</form:form>
 </body>
 </html>

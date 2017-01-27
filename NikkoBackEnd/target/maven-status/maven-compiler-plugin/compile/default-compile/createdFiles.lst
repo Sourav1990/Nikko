@@ -1,12 +1,11 @@
 com\niit\nikkobackend\dao\CategoryDAO1.class
 com\niit\nikkobackend\model\Product.class
-com\niit\nikkobackend\dao\CartDAOImpl.class
 com\niit\nikkobackend\dao\UserDAOImpl.class
+com\niit\nikkobackend\model\User.class
 com\niit\nikkobackend\dao\UserDAO.class
 com\niit\nikkobackend\dao\ProductDAO.class
 com\niit\nikkobackend\dao\ProductDAOImpl.class
 com\niit\nikkobackend\dao\CategoryDAOImpl.class
-com\niit\nikkobackend\dao\CartDAO.class
 com\niit\nikkobackend\model\Category.class
 com\niit\nikkobackend\config\ApplicationContextConfig.class
 com\niit\nikkobackend\dao\SupplierDAO.class

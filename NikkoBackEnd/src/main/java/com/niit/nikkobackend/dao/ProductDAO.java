@@ -5,7 +5,7 @@ import java.util.List;
 import com.niit.nikkobackend.model.Product;;
 
 public interface ProductDAO {
-	public List<Product> list();
+	public List<Product> getAll();
 
 	public Product get(String product_id);
 
@@ -13,5 +13,4 @@ public interface ProductDAO {
 	public boolean update(Product product);
 
 	public boolean delete(Product product);
-
 }

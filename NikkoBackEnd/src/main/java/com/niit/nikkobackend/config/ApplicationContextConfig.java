@@ -14,12 +14,15 @@ import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBuilder;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+
 import com.niit.nikkobackend.model.Category;
+import com.niit.nikkobackend.model.Cart;
 import com.niit.nikkobackend.model.Product;
 import com.niit.nikkobackend.model.Supplier;
+import com.niit.nikkobackend.model.User;
 
 @Configuration
-@ComponentScan({"com.niit"})
+@ComponentScan("com.niit.nikkobackend")
 @EnableTransactionManagement
 public class ApplicationContextConfig {
 
@@ -47,7 +50,11 @@ public class ApplicationContextConfig {
 	{
 		LocalSessionFactoryBuilder sessionBuilder=new LocalSessionFactoryBuilder(dataSource);
 		sessionBuilder.addProperties(getHibernateProperties());
-		sessionBuilder.scanPackages("com.niit");
+		sessionBuilder.addAnnotatedClass(Category.class);
+		sessionBuilder.addAnnotatedClass(Supplier.class);
+		sessionBuilder.addAnnotatedClass(Product.class);
+		sessionBuilder.addAnnotatedClass(User.class);
+		sessionBuilder.addAnnotatedClass(Cart.class);
 		return sessionBuilder.buildSessionFactory();
 	}
 	

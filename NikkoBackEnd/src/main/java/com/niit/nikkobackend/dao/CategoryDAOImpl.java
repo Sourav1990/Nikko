@@ -14,8 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.niit.nikkobackend.model.Category;
 
 
-@Repository
-@Transactional
+@Repository("categoryDAO")
 public class CategoryDAOImpl implements CategoryDAO1 {
 	
 	@Autowired

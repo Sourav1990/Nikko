@@ -1,30 +1,31 @@
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-   "http://www.w3.org/TR/html4/loose.dtd">
- <%@taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
- 
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@page session="true"%>
 <html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Home</title>
-    </head>
-    <body>
-        <div align="center">
-            <h1>Contact List</h1>
-            <table border="1">
-                <th>No</th>
-                <th>Username</th>
-                <th>Email</th>
-                 
-                <c:forEach items="${categories}" var="cat" >
-                <tr>
-                    <td>${cat.CATEGORY_ID}</td>
-                    <td>${cat.NAME}</td>
-                    <td>${cat.DESCRIPTION}</td>         
-                </tr>
-                </c:forEach>             
-            </table>
-        </div>
-    </body>
+<body>
+	<h1>Title : ${title}</h1>
+	<h1>Message : ${message}</h1>
+
+	<c:url value="/j_spring_security_logout" var="logoutUrl" />
+
+	<!-- csrt for log out-->
+	<form action="${logoutUrl}" method="post" id="logoutForm">
+	  <input type="hidden"
+		name="${_csrf.parameterName}"
+		value="${_csrf.token}" />
+	</form>
+
+	<script>
+		function formSubmit() {
+			document.getElementById("logoutForm").submit();
+		}
+	</script>
+
+	<c:if test="${pageContext.request.userPrincipal.name != null}">
+		<h2>
+			Welcome : ${pageContext.request.userPrincipal.name} | <a
+				href="javascript:formSubmit()"> Logout</a>
+		</h2>
+	</c:if>
+
+</body>
 </html>
