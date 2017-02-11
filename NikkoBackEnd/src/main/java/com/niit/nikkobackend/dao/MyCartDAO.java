@@ -14,4 +14,6 @@ public interface MyCartDAO {
 
 	public Long getTotalAmount(String id);
 	
+
+	
 }

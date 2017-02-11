@@ -65,4 +65,8 @@ public class ProductDAOImpl implements ProductDAO  {
 		}
 		return true;
 	}
+	/*@Transactional
+	public Product searchProduct(String product_id) {
+		return (Product) sessionFactory.getCurrentSession().get(Product.class,product_id);
+	}*/
 }

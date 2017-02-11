@@ -8,6 +8,11 @@
 <title>Register</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script type="text/javascript">
+		H5F.listen(window,"load",function () {
+			H5F.setup(document.getElementById("signup"));
+		},false);
+	</script>
 <style>
   @import url(http://fonts.googleapis.com/css?family=Raleway:400,100,200,300);
 * {
@@ -193,35 +198,52 @@ p {
 
 		<div class="tabs-content">
 			<div id="signup-tab-content" class="active">
-				<form:form class="signup-form" action="adduser" commandName="user" method="post">
-					<form:input type="email" path="user_email" class="input" id="user_email" autocomplete="off" placeholder="Email"/>
-					<form:input type="text" path="user_id" class="input" id="user_name" autocomplete="off" placeholder="Username"/>
-					<form:input type="password" path="user_password" class="input" id="user_pass" autocomplete="off" placeholder="Password"/>
-					<input type="submit" class="button" value="Sign Up">
+				<form:form class="signup-form" action="adduser" commandName="user" method="post" id="signup">
+				<fieldset>
+					<form:input type="email" path="user_email" class="input"  autocomplete="off" placeholder="Email" required="true"/>
+					<form:input type="text" path="user_id" class="input"  autocomplete="off" placeholder="Username" required="true"/>
+					<form:input  class="input" path="password"  type="password" title="Minimum 8 characters, one number, one uppercase and one lowercase letter" pattern="(?=^.{8,}$)((?=.*d)|(?=.*W+))(?![.n])(?=.*[A-Z])(?=.*[a-z]).*" autocomplete="off" placeholder="Password" required="true"/>
+					<input type="submit" class="button" value="SignUp">
+					</fieldset>
 				</form:form><!--.login-form-->
-				<div class="help-text">
-					<p>By signing up, you agree to our</p>
-					<p><a href="#">Terms of service</a></p>
-				</div><!--.help-text-->
+		
 			</div><!--.signup-tab-content-->
-
+		
 			<div id="login-tab-content">
 				<form:form class="login-form" action="checkuser" method="post" commandName="user">
-					<form:input type="text" path="user_id" class="input" id="user_login" autocomplete="off" placeholder="Username"/>
-					<form:input type="password" path="user_password" class="input" id="user_pass" autocomplete="off" placeholder="Password"/>
-					<input type="checkbox" class="checkbox" id="remember_me">
+					<form:input type="text" path="user_id" class="input"  autocomplete="off" placeholder="Username" required="true"/>
+					<form:input type="password" path="password" class="input"  autocomplete="off" placeholder="Password" required="true"/>
+					
+					<!-- <input type="checkbox" class="checkbox" id="remember_me">
 					<label for="remember_me">Remember me</label>
-
+ -->					
 					<input type="submit" class="button" value="Login">
+					<div align="center">
+				
+        <c:if test="${isAdmin==true}">
+        <%@ page buffer="5000kb" %>
+        <jsp:forward page="inventorycontrol.jsp"/>
+        </c:if> 
+         <c:if test="${isAdmin==false}">
+        <%@ page buffer="5000kb" %>
+        <jsp:forward page="test3.jsp"/>
+        </c:if> 
+        
+    </div>
+   
 				</form:form><!--.login-form-->
-				<div class="help-text">
-					<p><a href="#">Forget your password?</a></p>
-				</div><!--.help-text-->
+	
+				
 			</div><!--.login-tab-content-->
+	
 		</div><!--.tabs-content-->
+
 	</div><!--.form-wrap-->
+
     </div>
+    
     </div>
+    
 <jsp:include page="jsfiles.jsp"></jsp:include>
 <script>
 jQuery(document).ready(function($) {
@@ -249,11 +271,7 @@ window.onload = function(){
     };
 };
 </script>
-<div align="center">
-        <c:if test="${isAdmin==false}">
-        <%@ page buffer="5000kb" %>
-        <jsp:forward page="test3.jsp"/>
-        </c:if> 
-    </div>
+
+
 </body>
 </html>

@@ -27,20 +27,30 @@ public class nikkocontroller {
     public String defaultMultiControllerAction() {
         return "test3";
     }
- 
+    */
     @RequestMapping(value="/test", method=RequestMethod.GET)
     public String nextDefaultMultiControllerAction() {
         return "test";
     }
+
     @RequestMapping(value="/signup", method=RequestMethod.GET)
     public String nextDefaultMultiControllerAction1() {
         return "Signupandlogin";
     }
-    @RequestMapping(value="/product", method=RequestMethod.GET)
+    
+    @RequestMapping(value="/contact", method=RequestMethod.GET)
+    public String nextDefaultMultiControllerAction2() {
+        return "Contact";
+    }
+    @RequestMapping(value="/service", method=RequestMethod.GET)
+    public String nextDefaultMultiControllerAction3() {
+        return "serviceandsupport";
+    }
+    @RequestMapping(value="/test3", method=RequestMethod.GET)
     public String next2DefaultMultiControllerAction() {
-        return "productpage";
-    }*/
-    @RequestMapping(value="/productdetail1", method=RequestMethod.GET)
+        return "test3";
+    }
+    /*@RequestMapping(value="/productdetail1", method=RequestMethod.GET)
     public String next3DefaultMultiControllerAction() {
         return "productdetail";
     }

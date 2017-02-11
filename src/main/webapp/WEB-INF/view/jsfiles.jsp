@@ -10,4 +10,5 @@
  <%@include file="/resources/js/fade.js" %>
  <%@include file="/resources/js/modalfin.js" %>
  <%@include file="/resources/js/hover.js" %>
+ <%@include file="/resources/js/form.js" %>
 </script>

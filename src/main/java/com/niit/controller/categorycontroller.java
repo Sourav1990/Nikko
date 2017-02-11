@@ -21,7 +21,6 @@ import com.niit.nikkobackend.model.Category;
 import com.niit.nikkobackend.model.Product;
 
 @Controller
-@RequestMapping("/controller")
 public class categorycontroller {
 
 @Autowired
@@ -31,43 +30,48 @@ private ProductDAO productDAO;
 @Autowired
 Product product;
 
-   @RequestMapping("/catgor")
-    public String home(Model model) {
+   @RequestMapping("/admincatgor")
+    public String home(Model model,@ModelAttribute(value="category") Category category) {
 	   List<Category> categories=categoryDAO.getAll();
        // List<Supplier> suppliers=supplierDao.list();
-	   List<Product> products = productDAO.getAll();
+	   //List<Product> products = productDAO.getAll();
 	//if (products!=null && !products.isEmpty()) {
 	
-	model.addAttribute("product", new Product());
-	//model.addAttribute("category", new Category());
+	//model.addAttribute("product", new Product());
+	model.addAttribute("category", new Category());
 	//model.addAttribute("supplier", new Supplier());
-	model.addAttribute("productlist", products);
+	//model.addAttribute("productlist", products);
 	model.addAttribute("categorylist",categories);
 	//model.addAttribute("supplierlist",suppliers);
 	//log.debug("Ending Greetings");
 	//}
-        return "productcrud";
+        return "categorycrud";
     }
-    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    @RequestMapping(value = "/admincatadd", method = RequestMethod.POST)
     public String addCategory(@ModelAttribute(value="category") Category category, BindingResult result,ModelMap map)
     {
     	String heading="Successfully Inserted";
     	if(categoryDAO.save(category))
     		map.addAttribute("heading", heading);
-        return "redirect:/controller/catgor";
+        return "redirect:/admincatgor";
     	
     }
    
-    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    @RequestMapping(value = "/admincatupdate", method = RequestMethod.POST)
     public String updateCategory(@ModelAttribute(value="category") Category category, BindingResult result)
     {
         categoryDAO.update(category);
-        return "redirect:/controller/catgor";
+        return "redirect:/admincatgor";
     }
-    @RequestMapping(value = "/delete", method = RequestMethod.POST)
+    @RequestMapping(value = "/admincatdelete", method = RequestMethod.POST)
     public String deleteCategory(@ModelAttribute(value="category") Category category, BindingResult result)
     {
         categoryDAO.delete(category);
-        return "redirect:/controller/catgor";
+        return "redirect:/admincatgor";
+    }
+    @RequestMapping(value = "/accessdenied", method = RequestMethod.POST)
+    public String accessdenied(@ModelAttribute(value="category") Category category, BindingResult result)
+    {
+        return "denied";
     }
 }

@@ -28,6 +28,11 @@
                     
                 </tr>
                 <tr>
+                    <td><form:label path="role">Role</form:label> </td>
+                    <td><form:password path="role" size="30"/></td>
+                    
+                </tr>
+                <tr>
                     <td></td>
                     <td align="center"><input type="submit" value="Login"/></td>
                     <td></td>
@@ -39,7 +44,7 @@
     <div align="center">
         <c:if test="{isAdmin==true}">
          ${loggedInUser }
-        <%@ include file="admincrud.jsp" %>
+       <jsp:forward page="inventorycontrol.jsp"/>
         </c:if> 
     </div>
 </body>

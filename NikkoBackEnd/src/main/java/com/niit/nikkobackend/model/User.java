@@ -18,12 +18,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class User {
 	@Id 
+	@Column(unique=true)
 	private String user_id;
 	@Column(name="password")
 	@NotEmpty(message = "Please enter your password.")
     @Size(min = 6, max = 12, message = "Your password must between 6 and 15 characters" )
-private String user_password;
-	@Column(name="email")
+private String password;
 	@NotEmpty
     @Email
 	private String user_email;
@@ -46,12 +46,13 @@ private String user_password;
 	public void setUser_id(String user_id) {
 		this.user_id = user_id;
 	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
 	
-	public String getUser_password() {
-		return user_password;
-	}
-	public void setUser_password(String user_password) {
-		this.user_password = user_password;
-	}
+	
 	
 }

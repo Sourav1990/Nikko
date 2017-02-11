@@ -9,6 +9,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<springtags:url value="/resources/images/productimages" var="imageFolder"/>
 <title>Insert title here</title>
 <jsp:include page="jsfiles.jsp"></jsp:include>
 		<jsp:include page="cssfiles.jsp"></jsp:include>
@@ -340,38 +341,73 @@ li em {
   font-weight:bold;
   font-style:normal;
 }
+#bg-asset {
+            position: fixed;
+            background: url('https://www.stakeholdermap.com/ninja-slider/pg-bg.jpg');
+            z-index: -1;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+        }
+        .show-on-hover:hover>ul.dropdown-menu {
+	display: block;
+	
+}
 </style>
 </head>
 <body>
-<form:form method="POST" commandName="user">
 <header>
-        <a href="#">HOME</a>
-        <a href="test">GALLERIA</a>
-        <a class="active" href="mcart">PRODUCTS</a>
-        <a href="#">SERVICE AND SUPPORT</a>
-        <a href="#">WHERE TO BUY</a>
-        <a href="#">LEARN AND EXPLORE</a>
-        <a href="#">ABOUT US</a>
-        <a href="signup">SIGNUP AND LOGIN</a>
-         Welcome, ${loggedInUserID}
-         <button type="submit" form="viewMyCart" class="add-to-cart btn btn-default" type="button">VIEW</button> ${cartcount} ${cartcount}
+ 
+        <a class="active" href="${cp}/test3">HOME</a>
+        <a href="${cp}/test">GALLERIA</a>
+        <a href="${cp}/mcart">PRODUCTS</a>
+        <a href="${cp}/service">SERVICE AND SUPPORT</a>
+        <a href="${cp}/contact">ABOUT US</a>
+       <c:if test="${loggedInUserID == null}">
+	<a href="${cp}/checkuser">SIGNUP AND LOGIN</a>
+	</c:if>
+    <c:if test="${loggedInUserID != null}">
+			<div class="container">
+				<div class="row">
+					<div class="btn-group show-on-hover">
+						<button type="button" class="btn btn-default dropdown-toggle"
+							data-toggle="dropdown">
+							${loggedInUserID} <span class="caret"></span>
+						</button>
+						<ul class="dropdown-menu" role="menu">
+							<li><a href="${cp}/outuser">Log Out</a></li>
+
+						</ul>
+
+					</div>
+				</div>
+			</div>
+		</c:if>
+  
+    
+ 
+        
+         <button type="submit" form="viewMyCart" class="add-to-cart btn btn-default" type="button">MY CART ${cartcount}</button>
+ 
     </header>
-    </form:form>
+    <div id="bg-asset"></div>
+    
 <div class='p_slider'>
   <div class='p_slider__item'>
-    <img src='https://s3-us-west-2.amazonaws.com/s.cdpn.io/217233/iwatch1.png'>
+<img src="${imageFolder}/${product.product_id}.jpg"></a>
   </div>
   <div class='p_slider__item'>
-    <img src='https://s3-us-west-2.amazonaws.com/s.cdpn.io/217233/iwatch2.png'>
+<img src="${imageFolder}/${product.product_id}.jpg"></a>
   </div>
   <div class='p_slider__item'>
-    <img src='https://s3-us-west-2.amazonaws.com/s.cdpn.io/217233/iwatch3.png'>
+<img src="${imageFolder}/${product.product_id}.jpg"></a>
   </div>
 </div>
 
-	<div class="container">
+	
 		<div class="card">
-			<div class="container-fliud">
+	
 				<div class="wrapper row">
 					<div class="details col-md-6">
 						<h3 class="product-title">${product.product_name}</h3>
@@ -397,7 +433,7 @@ li em {
 				<input type="text" name="Status" value="N" hidden="hidden"/>
 				
 				</form>
-				<form id="viewMyCart" action="${cp}/selectedproduct/mcart/viewCart" method="post">
+				<form id="viewMyCart" action="${cp}/selectedproduct/mcart/then/viewCart" method="post">
 				<input type="text" name="user_id" value="${user.user_id}" hidden="hidden"/>
 				<input type="text" name="product_id" value="${product.product_id}" hidden="hidden"/>
 				<input type="text" name="product_name" value="${product.product_name}" hidden="hidden"/>
@@ -405,12 +441,27 @@ li em {
 				<input type="text" name="Status" value="N" hidden="hidden"/>
 				
 				</form>
+				<form id="webFlow" action="${cp}/webflow" method="post">
+				
+				</form>
+				<form id="wishlist" action="${cp}/wishlist" method="post">
+				<input type="text" name="product_id" value="${product.product_id}" hidden="hidden"/>
+				</form>
+				<c:if test="${empty loggedInUserID}">
 						<div class="action">
-						<button type="submit" form="addToCart" class="add-to-cart btn btn-default" type="button">ADD TO CART</button>
-							<button  class="add-to-cart btn btn-default" type="button">BUY NOW</button>
+						<button onclick="location.href='${cp}/checkuser'" class="add-to-cart btn btn-default" type="button">ADD TO CART</button>
+							<button onclick="location.href='${cp}/checkuser'" class="add-to-cart btn btn-default" type="button">BUY NOW</button>
 							<button class="like btn btn-default" type="button"><span class="fa fa-heart"></span></button>
 						</div>
-
+</c:if>
+				<c:if test="${not empty loggedInUserID}">
+						<div class="action">
+						<button type="submit" form="addToCart" class="add-to-cart btn btn-default">ADD TO CART</button>
+							<button type="submit" form="webFlow" class="add-to-cart btn btn-default" type="button">BUY NOW</button>
+							<button type="submit" form="wishlist"class="like btn btn-default" type="button"><span class="fa fa-heart"></span></button>
+							<h2>${wish}</h2>
+						</div>
+</c:if>
 					</div>
 				</div>
 			</div>

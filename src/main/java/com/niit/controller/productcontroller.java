@@ -1,8 +1,13 @@
 package com.niit.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -31,7 +36,6 @@ import com.niit.nikkobackend.model.Supplier;
 import com.niit.util.FileUtil;
 
 @Controller
-@RequestMapping("/prodgor")
 public class productcontroller {
 	@Autowired
 	ProductDAO productDAO;
@@ -51,47 +55,165 @@ public class productcontroller {
 	MyCartDAO cartDAO;
 	Logger log = LoggerFactory.getLogger(productcontroller.class);
 
-	/*
-	 * @RequestMapping("/productgor") public String home(Model model) {
-	 * 
-	 * List<Category> categories=categoryDAO.getAll(); // List<Supplier>
-	 * suppliers=supplierDao.list(); List<Product> products =
-	 * productDAO.getAll(); List<Supplier> suppliers = supplierDAO.getAll();
-	 * 
-	 * //if (products!=null && !products.isEmpty()) {
-	 * 
-	 * model.addAttribute("product", new Product());
-	 * model.addAttribute("category", new Category());
-	 * model.addAttribute("supplier", new Supplier());
-	 * model.addAttribute("productlist", products);
-	 * model.addAttribute("categorylist",categories);
-	 * model.addAttribute("supplierlist",suppliers); //log.debug(
-	 * "Ending Greetings"); //} return "productdetail"; }
-	 */
-	/*
-	 * @RequestMapping(value = "/add", method = RequestMethod.POST) public
-	 * String addCategory(@ModelAttribute(value="product") Product product,
-	 * BindingResult result,ModelMap map) {
-	 * if((productDAO.get(product.getProduct_id()))==null) { MultipartFile
-	 * image=product.getFile();
-	 * 
-	 * FileUtil.upload("D:/Nikko/src/main/webapp/resources/images", image,
-	 * product.getProduct_id()+".jpg"); productDAO.save(product); } else{
-	 * productDAO.update(product); } return "redirect:/productgor";
-	 * 
-	 * }
-	 * 
-	 * @RequestMapping(value = "/update", method = RequestMethod.POST) public
-	 * String updateCategory(@ModelAttribute(value="product") Product product,
-	 * BindingResult result) { productDAO.update(product); return
-	 * "redirect:/productgor"; }
-	 * 
-	 * @RequestMapping(value = "/delete", method = RequestMethod.POST) public
-	 * String deleteCategory(@ModelAttribute(value="product") Product product,
-	 * BindingResult result) { productDAO.delete(product); return
-	 * "redirect:/productgor"; }
-	 */
-	
+	@RequestMapping("/adminproductgor")
+	public String prohome(Model model,@ModelAttribute(value = "product") Product product) {
+
+		List<Category> categories = categoryDAO.getAll();
+		List<Product> products = productDAO.getAll();
+		List<Supplier> suppliers = supplierDAO.getAll();
+
+		if (products != null && !products.isEmpty()) {
+
+			model.addAttribute("product", new Product());
+			model.addAttribute("category", new Category());
+			model.addAttribute("supplier", new Supplier());
+			model.addAttribute("productlist", products);
+			model.addAttribute("categorylist", categories);
+			model.addAttribute("supplierlist", suppliers);
+			log.debug("Ending Greetings");
+		}
+		return "productcrud";
+	}
+
+	@RequestMapping(value = "/adminadd", method = RequestMethod.POST)
+	public String addProduct(@ModelAttribute(value = "product") Product product, BindingResult result, ModelMap map,HttpServletRequest request) {
+		if ((productDAO.get(product.getProduct_id())) == null) {
+			productDAO.save(product);
+			// ................................... multi part starts
+			// here....................
+
+			// need to have a transient field of type MultipartFile in Product
+			// model class
+			MultipartFile productImage = product.getFile();
+
+			// only if file exist upload the image
+			if(productImage!=null && productImage.getSize() > 0) {
+					// first get the root directory and then append the directory where
+					// you want to store
+					String rootPath = request.getSession().getServletContext().getRealPath("/");
+					String directoryPath = rootPath + "resources\\images\\productimages";
+					// append the file name
+					String filePath = directoryPath + File.separator + product.getProduct_id() + ".jpg";
+					// ========================================================
+					// If directory does not exist create the directory
+					if (!Files.exists(Paths.get(directoryPath))) {
+						try {
+							// create the directories recursively
+							Files.createDirectories(Paths.get(directoryPath));
+						}
+
+						catch (IOException ex) {
+							ex.printStackTrace();
+						}
+					}
+					// =======================================================
+					// transfer the file
+
+				try {
+						productImage.transferTo(new File(filePath));
+					} catch (Exception ex) {
+						ex.printStackTrace();
+					}
+
+					// ................................... ends
+					// here..................................				
+			}
+		}
+		return "redirect:/adminproductgor";
+		}
+
+	//}
+
+	@RequestMapping(value = "/adminupdate", method = RequestMethod.POST)
+	public String updateProduct(@ModelAttribute(value = "product") Product product, BindingResult result,HttpServletRequest request) {
+		if ((productDAO.get(product.getProduct_id())) == null) {
+			productDAO.save(product);
+			// ................................... multi part starts
+			// here....................
+
+			// need to have a transient field of type MultipartFile in Product
+			// model class
+			MultipartFile productImage = product.getFile();
+
+			// only if file exist upload the image
+			if(productImage!=null && productImage.getSize() > 0) {
+					// first get the root directory and then append the directory where
+					// you want to store
+					String rootPath = request.getSession().getServletContext().getRealPath("/");
+					String directoryPath = rootPath + "resources\\images\\productimages";
+					// append the file name
+					String filePath = directoryPath + File.separator + product.getProduct_id() + ".jpg";
+					// ========================================================
+					// If directory does not exist create the directory
+					if (!Files.exists(Paths.get(directoryPath))) {
+						try {
+							// create the directories recursively
+							Files.createDirectories(Paths.get(directoryPath));
+						}
+
+						catch (IOException ex) {
+							ex.printStackTrace();
+						}
+					}
+					// =======================================================
+					// transfer the file
+
+				try {
+						productImage.transferTo(new File(filePath));
+					} catch (Exception ex) {
+						ex.printStackTrace();
+					}
+
+					// ................................... ends
+					// here..................................				
+			}
+		}
+		else{
+			MultipartFile productImage = product.getFile();
+
+			// only if file exist upload the image
+			if(productImage!=null && productImage.getSize() > 0) {
+					// first get the root directory and then append the directory where
+					// you want to store
+					String rootPath = request.getSession().getServletContext().getRealPath("/");
+					String directoryPath = rootPath + "resources\\images\\productimages";
+					// append the file name
+					String filePath = directoryPath + File.separator + product.getProduct_id() + ".jpg";
+					// ========================================================
+					// If directory does not exist create the directory
+					if (!Files.exists(Paths.get(directoryPath))) {
+						try {
+							// create the directories recursively
+							Files.createDirectories(Paths.get(directoryPath));
+						}
+
+						catch (IOException ex) {
+							ex.printStackTrace();
+						}
+					}
+					// =======================================================
+					// transfer the file
+
+				try {
+						productImage.transferTo(new File(filePath));
+					} catch (Exception ex) {
+						ex.printStackTrace();
+					}
+
+					// ................................... ends
+					// here..................................				
+			}
+		
+		productDAO.update(product);
+		}
+		return "redirect:/adminproductgor";
+	}
+
+	@RequestMapping(value = "/admindelete", method = RequestMethod.POST)
+	public String deleteProduct(@ModelAttribute(value = "product") Product product, BindingResult result) {
+		productDAO.delete(product);
+		return "redirect:/adminproductgor";
+	}
 	
 
 }

@@ -14,6 +14,10 @@
 		<jsp:include page="cssfiles.jsp"></jsp:include>
 		<jsp:include page="fontfiles.jsp"></jsp:include>
 <style>
+.show-on-hover:hover>ul.dropdown-menu {
+	display: block;
+	
+}
 body {
   margin: 0;
   padding: 0;
@@ -309,8 +313,8 @@ img {
     opacity: 1;
     -webkit-transform: scale(1);
             transform: scale(1); } }
-header {display:block;padding:40px 0 30px;text-align:center;background:#000;}
-        header a {
+header1 {display:block;padding:40px 0 30px;text-align:center;background:#000;}
+        header1 a {
             font-family: sans-serif;
             font-size:10px;
             line-height: 24px;
@@ -319,7 +323,7 @@ header {display:block;padding:40px 0 30px;text-align:center;background:#000;}
             text-decoration:none;
             transition: color 0.7s;
         }
-        header a.active {
+        header1 a.active {
             font-weight:bold;
             width: 0 auto;
             height: 0 auto;
@@ -340,25 +344,113 @@ li em {
   font-weight:bold;
   font-style:normal;
 }
-</style>
-</head>
-<body>
 
-<header>
-        <a href="#">HOME</a>
-        <a href="test">GALLERIA</a>
-        <a class="active" href="mcart">PRODUCTS</a>
-        <a href="#">SERVICE AND SUPPORT</a>
-        <a href="#">WHERE TO BUY</a>
-        <a href="#">LEARN AND EXPLORE</a>
-        <a href="#">ABOUT US</a>
-        <a href="signup">SIGNUP AND LOGIN</a>
-         Welcome, ${loggedInUserID}
-         <button type="submit" form="viewMyCart" class="add-to-cart btn btn-default" type="button">VIEW</button> ${cartcount}
-    </header>
-	<div class="container">
-		<div class="card">
-			<div class="container-fliud">
+@import url(http://fonts.googleapis.com/css?family=Exo:100);
+* {margin: 0; padding: 0; border: 0 none;}
+html, body {height: 100%; width: 100%; font-size: 1rem; font-family: 'Exo', sans-serif; font-weight: 100;}
+.cont-slider {
+    position: relative;
+    height: 100vh;
+    max-height: 100vh;
+    width: auto;
+    min-width: 100vw;
+    margin: 0 auto;
+    overflow: hidden;
+}
+.slider {
+    animation: sliding 25s ease-out 0s backwards infinite;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 500%;
+    height: 100%;
+}
+.slide {
+    display: inline-block;
+    position: relative;
+    width: 20%;
+    height: 100%;    
+    background-attachment: fixed;
+    background-position: center center;
+    background-size: cover;
+}
+.slide span {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 0 5vh 5vh 0;
+    color: #FFF;
+    position: absolute;
+    left: 0;
+    top: 40vh;
+    font-size: 20vh;
+    line-height: 20vh;
+    border: 1px solid rgba(255,255,255,.45);
+    border-left: 0 none;
+}
+.one {
+  background-image: url(http://farm9.staticflickr.com/6183/6025120829_4d582707f7_z.jpg);}
+.two {
+  background-image: url(http://farm9.staticflickr.com/8064/8179351735_c8c069dc61_z.jpg);}
+.three {
+  background-image: url(http://farm9.staticflickr.com/8061/8188068610_70eda46a1f_z.jpg);}
+.four {
+  background-image: url(http://farm9.staticflickr.com/242/535485602_9328a91e65_z.jpg);}
+.five {
+  background-image: url(http://farm9.staticflickr.com/8488/8175350378_a97be42263_z.jpg);}
+
+@keyframes sliding {
+  0% {left: 0%; }
+  15% {left: 0%; }
+  20% {left: -100%; }
+  35% {left: -100%; }
+  40% {left: -200%; }  
+  55% {left: -200%; }
+  60% {left: -300%; }
+  75% {left: -300%; }
+  80% {left: -400%; }
+  95% {left: -400%; }   
+  100% {left: 0; }
+}
+</style>
+
+<body BACKGROUND="<c:url value='/resources/images/pg-bg.jpg'/>" >
+
+<header1>
+		<a  href="#">HOME</a> <a href="${cp}/test">GALLERIA</a>
+		<a class="active" href="${cp}/mcart">PRODUCTS</a> <a href="${cp}/service">SERVICE
+			AND SUPPORT</a> <a href="${cp}/contact">ABOUT US</a>
+		<c:if test="${loggedInUserID != null}">
+			<div class="container">
+				<div class="row">
+					<div class="btn-group show-on-hover">
+						<button type="button" class="btn btn-default dropdown-toggle"
+							data-toggle="dropdown">
+							${loggedInUserID} <span class="caret"></span>
+						</button>
+						<ul class="dropdown-menu" role="menu">
+							<li><a href="${cp}/outuser">Log Out</a></li>
+
+						</ul>
+
+					</div>
+				</div>
+			</div>
+		</c:if>
+		<c:if test="${loggedInUserID == null}">
+			<a href="${cp}/checkuser">SIGNUP AND LOGIN</a>
+		</c:if>
+		</header1>
+    <header class="cont-slider">
+    <section class="slider">
+   
+      
+      <article class="slide one"><span1>Smart</span></article><!--
+      --><article class="slide two"><span>Witty</span></article><!--
+      --><article class="slide three"><span> Gorgeous</span></article><!--
+      --><article class="slide four"><span>Stamina</span></article><!--
+      --><article class="slide five"><span>Powerful</span></article>
+    </section>
+</header>
+		 <div class="card">
 				<div class="wrapper row">
 					<div class="details col-md-6">
 						<h2>YOUR CART</h2>
@@ -383,30 +475,35 @@ li em {
 
 									</tr>
 								</c:forEach>
-							</tbody>
-						</c:if>
-			
-									<tr>
-										<h4 class="price"><td>${totalAmount}</td></h4>
-
-									</tr>
 								
 							</tbody>
+							<h2>${totalAmount}</h2>
+						</c:if>
+			</div>
+									
+					
 						
-					<form id="viewMyCart" action="${cp}/selectedproduct/mcart/viewCart" method="post">
-				<input type="text" name="user_id" value="${user.user_id}" hidden="hidden"/>
-				<input type="text" name="product_id" value="${product.product_id}" hidden="hidden"/>
-				<input type="text" name="product_name" value="${product.product_name}" hidden="hidden"/>
-				<input type="number" name="price" value="${product.product_price}" hidden="hidden"/>
-				<input type="text" name="Status" value="N" hidden="hidden"/>
-				
-				</form>
+			
+			
 				<div class="action">
 						<p class="vote"><strong>91%</strong> of buyers enjoyed this product! <strong>(87 votes)</strong></p>
 					</div>
 				</div>
 			</div>
-		</div>
-	</div>
+			<form id="webFlow" action="${cp}/webflow" method="post">
+				
+				</form>
+<c:if test="${empty loggedInUserID}">
+						<div class="action">
+							<button onclick="location.href='${cp}/checkuser'" class="add-to-cart btn btn-default" type="button">BUY NOW</button>
+							<button class="like btn btn-default" type="button"><span class="fa fa-heart"></span></button>
+						</div>
+</c:if>
+				<c:if test="${not empty loggedInUserID}">
+						<div class="action">
+							<button type="submit" form="webFlow" class="add-to-cart btn btn-default" type="button">CHECKOUT</button>
+							<button class="like btn btn-default" type="button"><span class="fa fa-heart"></span></button>
+						</div>
+</c:if>
 </body>
 </html>

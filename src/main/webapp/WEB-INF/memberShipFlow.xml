@@ -1,9 +1,8 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.1" encoding="UTF-8"?>
 <flow xmlns="http://www.springframework.org/schema/webflow"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/webflow
 http://www.springframework.org/schema/webflow/spring-webflow-2.4.xsd">
-
 
 	<!-- Executed when webFlow is triggered -->
 	<on-start>
@@ -14,24 +13,29 @@ http://www.springframework.org/schema/webflow/spring-webflow-2.4.xsd">
 
 	<!-- if not specified the first view state is the starting state -->
 
-	<view-state id="flowExecutor" view="memberDetails"
+	<view-state id="start" view="memberDetails"
 		model="flowScope.billingAddress">
 		<transition on="submit" to="validate" />
 	</view-state>
 
 	<action-state id="validate">
-		<evaluate expression="demohandler.validateDetails(billingAddress,messageContext)"></evaluate>
-		<transition on="success" to="confirmDetails" />
+		<evaluate expression="demohandler.validateDetails(billingAddress,messageContext)" result="flowScope.billingAddress"></evaluate>
+		<transition on="success" to="paymentMethod" >
+		</transition>
 		<transition on="failure" to="start" />
 	</action-state>
-
-	<view-state id="confirmDetails" view="confirmDetails"
+	
+	<view-state id="paymentMethod" view="paymentMethod"
 		model="flowScope.billingAddress">
-		<transition on="edit" to="start" />
-		<transition on="submit" to="welcome" />
+		<transition on="submit" to="placeOrder" />
+	</view-state>
+	
+	<view-state id="placeOrder" view="placeOrder"
+		model="flowScope.billingAddress">
+		<transition on="submit" to="index" />
 	</view-state>
 
-	<end-state id="welcome" view="welcome" />
+	<end-state id="index" view="index" />
 	<end-state id="toHome" view="externalRedirect:contextRelative:index.jsp" />
 	<end-state id="toException"
 		view="externalRedirect:contextRelative:exception.jsp" />

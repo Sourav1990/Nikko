@@ -1,5 +1,6 @@
 package com.niit.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -24,8 +25,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.niit.nikkobackend.dao.MyCartDAO;
 import com.niit.nikkobackend.dao.MyCartDAOImpl;
+import com.niit.nikkobackend.dao.ProductDAO;
 import com.niit.nikkobackend.dao.UserDAO;
 import com.niit.nikkobackend.model.Category;
+import com.niit.nikkobackend.model.Product;
 import com.niit.nikkobackend.model.User;
 
 @Controller
@@ -36,23 +39,29 @@ public class usercontroller {
 	User user;
 	@Autowired
 	private UserDAO userDAO;
+	@Autowired
+	private ProductDAO productDAO;
 	
 	@Autowired
 	MyCartDAO cartDao;
 
-	@RequestMapping(value = { "/", "/welcome**" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "/"}, method = RequestMethod.GET)
 	public ModelAndView welcomePage() {
-
+		List<Product> products = productDAO.getAll();
+		
 		ModelAndView model = new ModelAndView();
 		model.addObject("title", "Spring Security Custom Login Form");
 		model.addObject("message", "This is welcome page!");
-		model.setViewName("hello");
+		model.setViewName("test2");
+		model.addObject("product", new Product());
+		model.addObject("productlist", products);
+		model.addObject("category", new Category());
 		return model;
 
 	}
 
 
-	@RequestMapping(value = "/admin**", method = RequestMethod.GET)
+	@RequestMapping(value = "/admin", method = RequestMethod.GET)
 	public ModelAndView adminPage() {
 
 		  ModelAndView model = new ModelAndView();
@@ -79,47 +88,33 @@ public class usercontroller {
 	  return model;
 
 	}
-	@RequestMapping(value = "/403", method = RequestMethod.GET)
-	public ModelAndView accesssDenied() {
-
-	  ModelAndView model = new ModelAndView();
-
-	  //check if user is login
-	  Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-	  if (!(auth instanceof AnonymousAuthenticationToken)) {
-		UserDetails userDetail = (UserDetails) auth.getPrincipal();
-		model.addObject("username", userDetail.getUsername());
-	  }
-
-	  model.setViewName("403");
-	  return model;
-
-	}
+	@RequestMapping(value = "/accessdenied", method = RequestMethod.GET)
+    public String loginerror(ModelMap model) {
+        model.addAttribute("error", "true");
+        return "denied";
+    }
 @RequestMapping(value = "/checkuser")
 	public ModelAndView checkUser(@RequestParam(value = "user_id", required = false) String user_id,
-			@RequestParam(value = "user_password", required = false) String password, HttpSession session,
+			@RequestParam(value = "password", required = false) String password, HttpSession session,
 			@ModelAttribute(value = "user") User user) {
 		log.debug("Starting of the method login");
 		log.info("user_id is {}  password is {}", user_id, password);
 		ModelAndView mv = new ModelAndView("Signupandlogin");
-		System.out.println("hiiiiiiiiiiiiiiiiiiiiiiiiiii");
 		user = userDAO.isValidUser(user_id, password);
 		if (user != null) {
-			log.debug("Valid Credencials");
+			log.debug("Valid Credentials");
 			user = userDAO.get(user_id);
 			session.setAttribute("loggedInUserID", user.getUser_id());
 			session.setAttribute("loggedInUserEMAIL", user.getUser_email());
 			session.setAttribute("user", user);
-			int cartcount = cartDao.getAll(user_id).size();
-			session.setAttribute("cartcount", cartcount);
-			if (user.getRole() == "ROLE_ADMIN") {
+			if (user.getRole().equals("ROLE_ADMIN")) {
 				log.debug("Logged in As Admin");
 				mv.addObject("isAdmin", "true");
 			} else {
 				log.debug("Logged in As a User");
 				mv.addObject("isAdmin", "false");
 			}
-		} else {
+		} else  {
 			mv.addObject("invalidCredentials", "true");
 			mv.addObject("errorMessage", "Invalid Credentials");
 			log.debug("Invalid credentials");
@@ -128,7 +123,14 @@ public class usercontroller {
 		return mv;
 
 	}
-
+@RequestMapping(value = "/outuser")
+public String logoutuser(HttpSession session)
+{
+	
+session.invalidate();
+	return "test2";
+	
+}
 	@RequestMapping(value = "/adduser", method = RequestMethod.POST)
 	public String addUser(@ModelAttribute(value = "user") User user, BindingResult result, ModelMap map, Model model) {
 		String heading = "Successfully Registered";
@@ -137,7 +139,7 @@ public class usercontroller {
 
 		}
 
-		return "redirect:/usergor";
+		return "redirect:/Signupandlogin";
 
 		// public ModelAndView login(@RequestParam(value="user_name") String
 		// userid,

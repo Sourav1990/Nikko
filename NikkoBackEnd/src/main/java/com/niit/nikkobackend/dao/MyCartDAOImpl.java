@@ -57,4 +57,6 @@ public class MyCartDAOImpl implements MyCartDAO {
 		return (Cart) sessionFactory.getCurrentSession().get(Cart.class, id);
 	}
 
+
+
 }
